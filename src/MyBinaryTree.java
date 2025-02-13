@@ -74,10 +74,10 @@ public class MyBinaryTree<T extends Comparable<T>> {
     }
     //--------------------------THE REAL STUFF STARTS HERE--------------------------//
     private MyBinaryTreeNode<T> insertRecursive(MyBinaryTreeNode<T> node, T value) {
+        //recursively travel to the lowest leaf and then set the new value to a new node
         if (node == null) {
             return new MyBinaryTreeNode<>(value);
         }
-
         if (value.compareTo(node.getData()) < 0) {
             node.setLeft(insertRecursive(node.getLeft(), value));
         } else if (value.compareTo(node.getData()) > 0) {
@@ -87,32 +87,29 @@ public class MyBinaryTree<T extends Comparable<T>> {
         return node;
     }
     private MyBinaryTreeNode<T> deleteRecursive(MyBinaryTreeNode<T> node, T value) {
-        if (node == null) {
-            return null;
-        }
+        if (node == null) {return null;}
+        //get to the subtree that needs to have a node deleted
         if (value.compareTo(node.getData()) < 0) {
             node.setLeft(deleteRecursive(node.getLeft(), value));
         } else if (value.compareTo(node.getData()) > 0) {
             node.setRight(deleteRecursive(node.getRight(), value));
         } else {
-            // Node with only one child or no child
+            //the end of recurrsion - start the deletion process
+            // Node with only one child or no child - if 1 child it will get replaced by the child, if null it will just get set to null
             if (node.getLeft() == null) {
                 return node.getRight();
             } else if (node.getRight() == null) {
                 return node.getLeft();
             }
-
-            // Node with two children: Get the inorder successor (smallest in the right subtree)
+            // Node with two children: Get the inorder successor (smallest in the right subtree) switch the value with node
             node.setData(findMin(node.getRight()));
-            node.setRight(deleteRecursive(node.getRight(), node.getData()));
+            node.setRight(deleteRecursive(node.getRight(), node.getData())); //remove the value once its swapped
         }
 
         return node;
     }
     private boolean containsRecursive(MyBinaryTreeNode<T> node, T value) {
-        if (node == null) {
-            return false;
-        }
+        if (node == null) {return false;} // the whole tree has been traversed - not found return false
 
         if (value.compareTo(node.getData()) == 0) {
             return true;
