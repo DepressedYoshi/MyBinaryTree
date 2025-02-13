@@ -13,7 +13,6 @@ public class MyBinaryTree<T extends Comparable<T>> {
     public void insert(T value) {
         root = insertRecursive(root, value);
     }
-
     private MyBinaryTreeNode<T> insertRecursive(MyBinaryTreeNode<T> node, T value) {
         if (node == null) {
             return new MyBinaryTreeNode<>(value);
@@ -29,15 +28,11 @@ public class MyBinaryTree<T extends Comparable<T>> {
     }
 
     // 2. Delete a node from the tree
-    public void delete(T value) {
-        root = deleteRecursive(root, value);
-    }
-
+    public void delete(T value) {root = deleteRecursive(root, value);}
     private MyBinaryTreeNode<T> deleteRecursive(MyBinaryTreeNode<T> node, T value) {
         if (node == null) {
             return null;
         }
-
         if (value.compareTo(node.getData()) < 0) {
             node.setLeft(deleteRecursive(node.getLeft(), value));
         } else if (value.compareTo(node.getData()) > 0) {
@@ -62,7 +57,6 @@ public class MyBinaryTree<T extends Comparable<T>> {
     public boolean contains(T value) {
         return containsRecursive(root, value);
     }
-
     private boolean containsRecursive(MyBinaryTreeNode<T> node, T value) {
         if (node == null) {
             return false;
@@ -140,11 +134,10 @@ public class MyBinaryTree<T extends Comparable<T>> {
         System.out.println();
     }
 
-    // 8. Find Minimum Value in BST
+    // 8. Find Minimum Value
     public T findMin() {
         return findMin(root);
     }
-
     private T findMin(MyBinaryTreeNode<T> node) {
         while (node.getLeft() != null) {
             node = node.getLeft();
@@ -152,11 +145,10 @@ public class MyBinaryTree<T extends Comparable<T>> {
         return node.getData();
     }
 
-    // 9. Find Maximum Value in BST
+    // 9. Find Maximum Value
     public T findMax() {
         return findMax(root);
     }
-
     private T findMax(MyBinaryTreeNode<T> node) {
         while (node.getRight() != null) {
             node = node.getRight();
@@ -168,7 +160,6 @@ public class MyBinaryTree<T extends Comparable<T>> {
     public int height() {
         return heightRecursive(root);
     }
-
     private int heightRecursive(MyBinaryTreeNode<T> node) {
         if (node == null) {
             return -1;
