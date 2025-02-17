@@ -72,6 +72,15 @@ public class MyBinaryTree<T extends Comparable<T>> {
     public boolean isValidBST() {
         return isValidBSTRecursive(root, null, null);
     }
+    public void balance() {
+        // Step 1: Collect all nodes in sorted order
+        List<T> nodes = new ArrayList<>();
+        inOrderToArray(root, nodes);
+
+        // Step 2: Build a balanced BST from the sorted nodes
+        root = buildBalancedTree(nodes, 0, nodes.size() - 1);
+    }
+
     //--------------------------THE REAL STUFF STARTS HERE--------------------------//
     private MyBinaryTreeNode<T> insertRecursive(MyBinaryTreeNode<T> node, T value) {
         //recursively travel to the lowest leaf and then set the new value to a new node
@@ -83,7 +92,6 @@ public class MyBinaryTree<T extends Comparable<T>> {
         } else if (value.compareTo(node.getData()) > 0) {
             node.setRight(insertRecursive(node.getRight(), value));
         }
-
         return node;
     }
     private MyBinaryTreeNode<T> deleteRecursive(MyBinaryTreeNode<T> node, T value) {
@@ -201,4 +209,15 @@ public class MyBinaryTree<T extends Comparable<T>> {
         return isValidBSTRecursive(node.getLeft(), min, node.getData()) &&
                 isValidBSTRecursive(node.getRight(), node.getData(), max);
     }
+    private MyBinaryTreeNode<T> buildBalancedTree(List<T> nodes, int start, int end) {
+        if (start > end) {return null;}
+        // Pick the middle element as the root
+        int mid = (start + end) / 2;
+        MyBinaryTreeNode<T> node = new MyBinaryTreeNode<>(nodes.get(mid));
+        // Recursively build the left and right subtrees
+        node.setLeft(buildBalancedTree(nodes, start, mid - 1));
+        node.setRight(buildBalancedTree(nodes, mid + 1, end));
+        return node;
+    }
+
 }
